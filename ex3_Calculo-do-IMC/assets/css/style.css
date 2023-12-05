@@ -28,6 +28,15 @@ body {
     border-radius: 10px;
 }
 
+.conteudo{
+    display: flex;
+    justify-content:space-between;
+    padding: 60px 0;
+    margin-top: -60px;
+    margin-bottom: -60px;
+    line-height: 0.7em;
+}
+
 form input, form label, form button{
     display: block;
     width: 100%;
@@ -60,4 +69,13 @@ form button:hover{
 }
 form button:active{
     background: var(--primary-color-active);
+}
+
+.paragraph-result, .isInvalid {
+    background: rgb(83, 231, 115);
+    padding: 10px 20px;
+}
+
+.isInvalid {
+    background: rgb(227, 73, 73);
 }
