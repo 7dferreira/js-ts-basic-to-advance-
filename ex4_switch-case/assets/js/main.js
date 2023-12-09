@@ -57,3 +57,13 @@ function formatedDate(date){
 
 formatedDate(date);
 
+/*
+##########################################################################################################################################
+
+
+const h1 = document.querySelector('.container h1');
+const date = new Date();
+h1.innerHTML = date.toLocaleDateString('pt-PT', {dateStyle: 'full'});
+
+*/
+
