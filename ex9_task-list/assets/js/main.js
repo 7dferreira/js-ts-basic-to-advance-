@@ -75,3 +75,5 @@ function addSaveTasks(){
         createTask(task);
     }
 }
+
+addSaveTasks();
