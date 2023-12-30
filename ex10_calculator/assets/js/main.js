@@ -1,6 +1,61 @@
+// outra maneira de programar uma calculadora é utilizar uma função construtora.
+// neste exemplo vamos tentar usar os recursos mais modernos da linguagem (arrow functions).
+
+function Calculator() {
+    this.display = document.querySelector('.display');
+
+    this.clickBtn = () => {
+        document.addEventListener('click', event => {
+            const el = event.target;
+            if(el.classList.contains('btn-num')) this.addNumberToDisplay(el.innerText);
+            if(el.classList.contains('btn-clear')) this.clearDisplay();
+            if(el.classList.contains('btn-del')) this.deleteDisplay();
+            if(el.classList.contains('btn-equal')) this.makeAcc();
+        
+        });
+    };
+
+    this.addNumberToDisplay = (value) => {
+        this.display.value += value;
+    };
+
+    this.clearDisplay = () => {
+        this.display.value = '';
+    };
+
+    this.deleteDisplay = () => {
+        this.display.value = this.display.value.slice(0, -1);
+    };
+
+    this.makeAcc = () => {
+        let acc = this.display.value;
+
+        try {
+            acc = eval(acc);
+
+            if(!acc) {
+                alert('conta inválida');
+                return;
+            }
+        }catch(e) {
+            alert('conta inválida');
+        }
+        this.display.value = String(acc);
+    };
+
+    this.start = () => {
+        this.clickBtn();
+    };
+}
+
+const calculator = new Calculator(); // 1 - a calculator é o objeto com que vamos trabalhar.
+calculator.start();
+
 /* Neste exercicio vamos utilizar factory function apenas para praticar. Como só vamos criar 1 calculadora 
 que corresponde a um objecto, não precisariamos da factory function. Factory function é útil quando trabalhos com 
 mais do que um objeto. */
+
+/*
 
 function createCalculator() {
     return {                                            // 1 - como é uma factory function, vai retornar um objeto.
@@ -77,3 +132,4 @@ function createCalculator() {
 const calculator = createCalculator();
 calculator.start();                                 
 
+*/
