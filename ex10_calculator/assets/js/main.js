@@ -4,28 +4,36 @@
 function Calculator() {
     this.display = document.querySelector('.display');
 
-    this.clickBtn = () => {
-        document.addEventListener('click', event => {
-            const el = event.target;
-            if(el.classList.contains('btn-num')) this.addNumberToDisplay(el.innerText);
-            if(el.classList.contains('btn-clear')) this.clearDisplay();
-            if(el.classList.contains('btn-del')) this.deleteDisplay();
-            if(el.classList.contains('btn-equal')) this.makeAcc();
-        
+    this.start = () => {
+        this.clickBtn();
+        this.pressEnter();
+    };
+
+    this.pressEnter = () => {
+        this.display.addEventListener('keypress', e => {
+            if(e.keyCode === 13) {
+            this.makeAcc();
+            }
         });
     };
 
-    this.addNumberToDisplay = (value) => {
-        this.display.value += value;
+    this.clickBtn = () => {
+        document.addEventListener('click', event => {
+            const el = event.target;
+            if(el.classList.contains('btn-num')) this.addNumberToDisplay(el);
+            if(el.classList.contains('btn-clear')) this.clearDisplay();
+            if(el.classList.contains('btn-del')) this.deleteDisplay();
+            if(el.classList.contains('btn-equal')) this.makeAcc(); 
+        });
     };
 
-    this.clearDisplay = () => {
-        this.display.value = '';
+    this.addNumberToDisplay = el => {
+        this.display.value += el.innerText;   // 1 - adiciona um novo valor áquele que já está no display.
+        this.display.focus();
     };
 
-    this.deleteDisplay = () => {
-        this.display.value = this.display.value.slice(0, -1);
-    };
+    this.clearDisplay = () => this.display.value = '';
+    this.deleteDisplay = () => this.display.value = this.display.value.slice(0, -1);
 
     this.makeAcc = () => {
         let acc = this.display.value;
@@ -39,12 +47,9 @@ function Calculator() {
             }
         }catch(e) {
             alert('conta inválida');
+            return;
         }
         this.display.value = String(acc);
-    };
-
-    this.start = () => {
-        this.clickBtn();
     };
 }
 
