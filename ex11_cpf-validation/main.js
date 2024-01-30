@@ -27,7 +27,7 @@ function ValidaCPF(cpfEnviado) {                                // 1 - Criamos u
 ValidaCPF.prototype.valida = function() {                       // 3 - Queremos que o metodo validare retorne verdadeiro se o cpf for válido
     if(typeof this.cpfLimpo === 'undefined') return false;      //     e falso se não for válido.
     if(this.cpfLimpo.length !== 11) return false;               // 4 - Agora n temos acesso ao cpfEnviado por isso utilizamos cpfLimpo
-    if(this.isSequencia()) return false;
+    if(this.isSequencia()) return false;                        // 13 - Se a sequência for true a condição retorna false.
 
     const cpfParcial = this.cpfLimpo.slice(0, -2);              // 6 - O cpfParcial é criado a partir do cpfLimpo. Neste momento excluimos os ultimos 2 digitos.
     const digito1 = this.criaDigito(cpfParcial);
@@ -56,8 +56,8 @@ ValidaCPF.prototype.criaDigito = function(cpfParcial) {         // 5 - Criamos u
 
 };
 
-ValidaCPF.prototype.isSequencia = function() {
-    const sequencia = this.cpfLimpo[0].repeat(this.cpfLimpo.length);
+ValidaCPF.prototype.isSequencia = function() {                          // 12 - por defeito se o cpf for uma sequencia de numeros, o cpf é sempre válido.
+    const sequencia = this.cpfLimpo[0].repeat(this.cpfLimpo.length);    //      para isso não acontecer criamos um método que retorna true se o cpf for uma sequencia.
     //console.log(sequencia);
     return sequencia === this.cpfLimpo;
 }
