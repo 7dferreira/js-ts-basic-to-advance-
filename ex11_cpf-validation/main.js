@@ -27,31 +27,47 @@ function ValidaCPF(cpfEnviado) {                                // 1 - Criamos u
 ValidaCPF.prototype.valida = function() {                       // 3 - Queremos que o metodo validare retorne verdadeiro se o cpf for válido
     if(typeof this.cpfLimpo === 'undefined') return false;      //     e falso se não for válido.
     if(this.cpfLimpo.length !== 11) return false;               // 4 - Agora n temos acesso ao cpfEnviado por isso utilizamos cpfLimpo
-    
+    if(this.isSequencia()) return false;
+
     const cpfParcial = this.cpfLimpo.slice(0, -2);              // 6 - O cpfParcial é criado a partir do cpfLimpo. Neste momento excluimos os ultimos 2 digitos.
     const digito1 = this.criaDigito(cpfParcial);
-    console.log(digito1);
+    const digito2 = this.criaDigito(cpfParcial + digito1);
+    const novoCpf = cpfParcial + digito1 + digito2;
+    //console.log(digito1);
+    //console.log(digito2);
 
-    return true;                                                               
+    return novoCpf === this.cpfLimpo;                                                               
 };
 
 ValidaCPF.prototype.criaDigito = function(cpfParcial) {         // 5 - Criamos um Array a partir do cpfParcial.
     const cpfArray = Array.from(cpfParcial);                    // 7 - Criamos um contador regressivo que começa a partir de 10.
     let regressivo = cpfArray.length + 1;                       // 8 - Vamos querer multiplicar o regressivo pelo valor.
-    const total = cpfArray.reduce((ac, val) => {                  // 9 - Agora o nosso ac é 237.
+    const total = cpfArray.reduce((ac, val) => {                // 9 - Agora o nosso ac é 237.
         //console.log(regressivo, val, regressivo * val);
         ac += (regressivo * Number(val));
         regressivo--;
         return ac;
     }, 0);
     //console.log(cpfArray);
-    console.log(digito);
+    
                                                                 // 10 - O resultado do primeiro digito é 5, conforme visto em cima.
     const digito = 11 - (total % 11);                           // 11 - Se o digito for maior que 9, que é o que acontece com o 2º cpf consideramos 0.
-    return digito > 9 ? 0 : digito;                                         
+    return digito > 9 ? '0' : String(digito);                                         
 
 };
 
-const cpf = new ValidaCPF('705.484.450-52');
-console.log(cpf.valida());
+ValidaCPF.prototype.isSequencia = function() {
+    const sequencia = this.cpfLimpo[0].repeat(this.cpfLimpo.length);
+    //console.log(sequencia);
+    return sequencia === this.cpfLimpo;
+}
+
+const cpf = new ValidaCPF('070.987.720-03');
+
+if(cpf.valida()) {
+    console.log('Cpf válido');
+} else {
+    console.log('Cpf inválido');
+}
+
 //console.log(cpf.cpfLimpo)
