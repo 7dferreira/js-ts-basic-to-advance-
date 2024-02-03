@@ -32,3 +32,46 @@ const ids = pessoas.map((obj, indice) => {
     return newObj;
 });
 console.log(ids);
+
+/* ----------------------------------------------------------------------------------------------------------------------------------- */
+
+
+
+const pessoas2 = [
+    {id: 3, nome: 'Luiz'},
+    {id: 2, nome: 'Maria'},
+    {id: 1, nome: 'Helena'},
+];
+
+// const novasPessoas = {};
+// Como é um objeto, fazemos destructuring.
+/* for (const {id, nome} of pessoas2) {
+    novasPessoas[id] = { id, nome };
+} */
+
+// ao faszermos a desestruturação deparamo-nos com um problemas: a ordem dos objetos foi alterada 
+// e as chaves passaram a ser strings.
+
+// for (const pessoa of pessoas2) {
+//     const { id } = pessoa;
+//     novasPessoas[id] = { ...pessoa }
+// }
+
+// para corrigirmos este problemas precisamos de utilziar um map.
+
+// console.log(novasPessoas);
+
+const novasPessoas = new Map();
+for (const pessoa of pessoas2) {
+    const { id } = pessoa;
+    novasPessoas.set(id, { ...pessoa })
+
+}
+
+// for (const [identifier, { id, nome }] of novasPessoas) {
+//     console.log(identifier, id, nome);
+    
+// }
+
+novasPessoas.delete(2);
+console.log(novasPessoas);
