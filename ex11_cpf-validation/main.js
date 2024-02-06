@@ -15,7 +15,7 @@ Se o número digito for maior que 9, consideramos 0.
 Se o número digito for maior que 9, consideramos 0.
 */
 
-function ValidaCPF(cpfEnviado) {                                // 1 - Criamos uma função construtora que recebe o cpfEnviado.
+/* function ValidaCPF(cpfEnviado) {                                // 1 - Criamos uma função construtora que recebe o cpfEnviado.
     Object.defineProperty(this, 'cpfLimpo', {
         enumerable: true,
         get: function() {
@@ -68,6 +68,65 @@ if(cpf.valida()) {
     console.log('Cpf válido');
 } else {
     console.log('Cpf inválido');
-}
+} */
 
 //console.log(cpf.cpfLimpo)
+
+/* ----------------------------------------------------------------------------------------------------------------------------------- */
+ 
+// validação de cpf com classes
+
+class ValidaCPF {
+    constructor(cpfEnviado) {
+        Object.defineProperty(this, 'cpfLimpo', {
+            writable: false,
+            enumerable: false,                               // ao colocar enumerable false aparece um objeto vazio ao invés de aparecer o cpf.
+            configurable: false,
+            value: cpfEnviado.replace(/\D+/g, '')
+        })
+    }
+
+    isSequencia() {
+        return this.cpfLimpo.charAt(0).repeat(11) === this.cpfLimpo;
+    }
+
+    createNewCpf() {
+        const cpfNoDigits = this.cpfLimpo.slice(0, -2);
+        // console.log(cpfNoDigits.length);
+        const digito1 = this.geraDigito(cpfNoDigits);
+        const digito2 = this.geraDigito(cpfNoDigits + digito1);
+        this.newCpf = cpfNoDigits + digito1 + digito2
+    }
+
+    geraDigito(cpfNoDigits) {
+        let total = 0;
+        let reverso = cpfNoDigits.length + 1;
+
+        for(let stringNumerica of cpfNoDigits) {            // ao contrário do que fizemos com a função construtora, aqui vamos iterar
+            // console.log(stringNumerica, reverso);           o cpf com um ciclo for e vamos multiplicar o valor reverso pelo numero.
+            total += reverso * Number(stringNumerica);
+            reverso--;
+        }
+
+        const digito = 11 - (total % 11);
+        return digito <= 9 ? String(digito) : '0';
+    }
+
+    valida() {
+        if(!this.cpfLimpo) return false;
+        if(typeof this.cpfLimpo !== 'string') return false;
+        if(this.cpfLimpo.length !== 11) return false;
+        if(this.isSequencia()) return false;
+        this.createNewCpf();
+
+        return this.newCpf === this.cpfLimpo;
+    }
+}
+
+let validacpf = new ValidaCPF('070.987.720-03');
+
+if(validacpf.valida()) {
+    console.log('Cpf válido');
+} else {
+    console.log('Cpf inválido');
+}
