@@ -93,13 +93,13 @@ class ValidaCPF {
     createNewCpf() {
         const cpfNoDigits = this.cpfLimpo.slice(0, -2);
         // console.log(cpfNoDigits.length);
-        const digito1 = this.geraDigito(cpfNoDigits);
-        const digito2 = this.geraDigito(cpfNoDigits + digito1);
+        const digito1 = ValidaCPF.geraDigito(cpfNoDigits);
+        const digito2 = ValidaCPF.geraDigito(cpfNoDigits + digito1);
         this.newCpf = cpfNoDigits + digito1 + digito2
     }
 
-    geraDigito(cpfNoDigits) {
-        let total = 0;
+    static geraDigito(cpfNoDigits) {                        // este método pode-se toranar estático uma vez que não utilizamos a palavra
+        let total = 0;                                      // 'this', ou seja não precisamos de nada da instância dentro desta função.
         let reverso = cpfNoDigits.length + 1;
 
         for(let stringNumerica of cpfNoDigits) {            // ao contrário do que fizemos com a função construtora, aqui vamos iterar
