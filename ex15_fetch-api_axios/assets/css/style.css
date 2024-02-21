@@ -61,3 +61,7 @@ form button:hover{
 form button:active{
     background: var(--primary-color-active);
 }
+
+table {
+    width: 100%;
+}
