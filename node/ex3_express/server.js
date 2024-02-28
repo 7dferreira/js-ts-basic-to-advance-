@@ -3,6 +3,7 @@
 
 const express = require('express');
 const app = express();
+const routes = require('./routes');
 
 app.use(                    // quando alguém fizer post req.body jutamente com urlencode devolve um objeto com o que foi postado.
     express.urlencoded(
@@ -10,7 +11,9 @@ app.use(                    // quando alguém fizer post req.body jutamente com 
             extended: true 
         }
     )
-);  
+); 
+
+app.use(routes);
 
 //         Criar   ler   atualizar apagar
 // CRUD -> CREATE, READ, UPDATE,   DELETE
@@ -20,24 +23,15 @@ app.use(                    // quando alguém fizer post req.body jutamente com 
 // http://meusite.com/sobre <- GET -> Entregue a página /sobre
 // http://meusite.com/contato <- GET -> Entregue a página /contato
 
-app.get('/', (req, res) => {    // o cliente faz uma req, o servidor entrega a resp dessa req.
-    res.send(`
-    <form action="/" method="POST">
-    Nome do cliente: <input type="text" name="nome">
-    <button>Olá mundo</button>
-    </form>
-    `);
-});
+// app.get('/tests/:userId?/:parameters?', (req, res) => {
+//     console.log(req.params);
+//     res.send(req.params);
+// })
 
-app.get('/tests/:userId?/:parameters?', (req, res) => {
-    console.log(req.params);
-    res.send(req.params);
-})
-
-app.post('/', (req, res) => {
-    console.log(req.body);
-    res.send(`Olá ${req.body.nome}`)                // a chave nome vem do input name: nome.
-});
+// app.post('/', (req, res) => {
+//     console.log(req.body);
+//     res.send(`Olá ${req.body.nome}`)                // a chave nome vem do input name: nome.
+// });
 
 app.listen(3000, () => {
     console.log('Servidor iniciado na porta 3000');
