@@ -4,6 +4,14 @@
 const express = require('express');
 const app = express();
 
+app.use(                    // quando alguém fizer post req.body jutamente com urlencode devolve um objeto com o que foi postado.
+    express.urlencoded(
+        { 
+            extended: true 
+        }
+    )
+);  
+
 //         Criar   ler   atualizar apagar
 // CRUD -> CREATE, READ, UPDATE,   DELETE
 //         POST    GET   PUT       DELETE
@@ -13,11 +21,22 @@ const app = express();
 // http://meusite.com/contato <- GET -> Entregue a página /contato
 
 app.get('/', (req, res) => {    // o cliente faz uma req, o servidor entrega a resp dessa req.
-    res.send('Hello world');
+    res.send(`
+    <form action="/" method="POST">
+    Nome do cliente: <input type="text" name="nome">
+    <button>Olá mundo</button>
+    </form>
+    `);
 });
 
-app.get('/contato', (req, res) => {
-    res.send('Obrigado pela sua visita');
+app.get('/tests/:userId?/:parameters?', (req, res) => {
+    console.log(req.params);
+    res.send(req.params);
+})
+
+app.post('/', (req, res) => {
+    console.log(req.body);
+    res.send(`Olá ${req.body.nome}`)                // a chave nome vem do input name: nome.
 });
 
 app.listen(3000, () => {
