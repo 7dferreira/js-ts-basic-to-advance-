@@ -1,10 +1,5 @@
 exports.inicialPage = (req, res) => {   // o cliente faz uma req, o servidor entrega a resp dessa req.   
-    res.send(`
-    <form action="/" method="POST">
-    Nome do cliente: <input type="text" name="nome">
-    <button>Olá mundo</button>
-    </form>
-    `);
+    res.render('index');
 };
 
 exports.userForm = (req, res) => {

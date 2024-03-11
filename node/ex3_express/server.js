@@ -4,14 +4,12 @@
 const express = require('express');
 const app = express();
 const routes = require('./routes');
+const path = require('path');
 
-app.use(                    // quando alguém fizer post req.body jutamente com urlencode devolve um objeto com o que foi postado.
-    express.urlencoded(
-        { 
-            extended: true 
-        }
-    )
-); 
+// quando alguém fizer post req.body jutamente com urlencode devolve um objeto com o que foi postado.
+app.use(express.urlencoded({ extended: true })); 
+app.set('views', path.resolve(__dirname, 'src', 'views'));
+app.set('view engine', 'ejs');
 
 app.use(routes);
 
