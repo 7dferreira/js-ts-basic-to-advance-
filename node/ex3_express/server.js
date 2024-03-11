@@ -1,11 +1,25 @@
 // express é uma micro-framework que nos vai ajudar a trabalhar com a web.
 // vai ajudar-nos também a trabalhar nas rotas da nossa aplicação.
+require('dotenv').config();
 
 const express = require('express');
 const app = express();
+
+// conexão à base de dados
+const mongoose = require('mongoose');
+
+// utilizamos uma promise, pq n queremos em nenhum momento que o utilizador acesse o site sem quem a db seja inicializada.
+mongoose.connect(process.env.CONNECTIONSTRING)
+    .then(() => {
+        app.emit('ready');
+    })
+    .catch(e => console.log(e));
+
+
 const routes = require('./routes');
 const path = require('path');
 const { globalMiddleware } = require('./src/middlewares/middleware');
+const { log } = require('console');
 
 // quando alguém fizer post req.body jutamente com urlencode devolve um objeto com o que foi postado.
 app.use(express.urlencoded({ extended: true })); 
@@ -37,7 +51,11 @@ app.use(routes);
 //     res.send(`Olá ${req.body.nome}`)                // a chave nome vem do input name: nome.
 // });
 
-app.listen(3000, () => {
+app.on('ready', () => {
+    app.listen(3000, () => {
+    console.log('http://localhost:3000');
     console.log('Servidor iniciado na porta 3000');
+    });
 });
+
 
