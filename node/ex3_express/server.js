@@ -8,6 +8,9 @@ const path = require('path');
 
 // quando alguém fizer post req.body jutamente com urlencode devolve um objeto com o que foi postado.
 app.use(express.urlencoded({ extended: true })); 
+
+app.use(express.static(path.resolve(__dirname, 'public')));
+
 app.set('views', path.resolve(__dirname, 'src', 'views'));
 app.set('view engine', 'ejs');
 
