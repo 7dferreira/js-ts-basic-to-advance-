@@ -21,8 +21,11 @@ const flash = require('connect-flash');
 
 const routes = require('./routes');
 const path = require('path');
-const { globalMiddleware } = require('./src/middlewares/middleware');
+const helmet = require('helmet');
+const csrf = require('csurf');
+const { globalMiddleware, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
 
+app.use(helmet());
 // quando alguém fizer post req.body jutamente com urlencode devolve um objeto com o que foi postado.
 app.use(express.urlencoded({ extended: true })); 
 
@@ -45,8 +48,12 @@ app.use(flash());
 app.set('views', path.resolve(__dirname, 'src', 'views'));
 app.set('view engine', 'ejs');
 
+app.use(csrf());  // vamos ejetar o token em todas as páginas, para isso utilizamos os middlewares
+
 // middlewares
 app.use(globalMiddleware);
+app.use(checkCsrfError);
+app.use(csrfMiddleware);
 app.use(routes);
 
 //         Criar   ler   atualizar apagar
