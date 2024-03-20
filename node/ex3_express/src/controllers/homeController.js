@@ -1,3 +1,5 @@
+// dentro do controller decidimos qual view vai ser renderizada
+
 // const HomeModel = require('../models/HomeModel');
 
 /* HomeModel.create({

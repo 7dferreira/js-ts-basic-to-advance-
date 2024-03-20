@@ -1,3 +1,5 @@
+// tudo o que é relativo a dados e à db é com o model que vamos trabalhar.
+
 const mongoose = require('mongoose');
 
 const HomeSchema = new mongoose.Schema({
