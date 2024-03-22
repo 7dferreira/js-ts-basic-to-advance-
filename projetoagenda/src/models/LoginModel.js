@@ -18,6 +18,23 @@ class Login {
         this.user = null;
     }
 
+    async login() {
+        this.validate();            
+        if(this.errors.length > 0) return;
+        this.user = await LoginModel.findOne({ email: this.body.email });
+
+        if(!this.user) {
+            this.errors.push('O utilizador não existe.');
+            return;
+        }
+
+        if(!bcryptjs.compareSync(this.body.password, this.user.password)) {
+            this.errors.push('Password inválida');
+            this.user = null;
+            return;
+        }
+    }
+
     async register() {              // 3 - desencadeia o método register no controller.
         this.validate();            // 4 - por sua vez este método chama o valida, que vai validar os nossos campos.
         if(this.errors.length > 0) return;
@@ -29,16 +46,12 @@ class Login {
         const salt = bcryptjs.genSaltSync();
         this.body.password = bcryptjs.hashSync(this.body.password, salt);
 
-        try {
-            this.user = await LoginModel.create(this.body);
-        } catch(e) {
-            console.log(e);
-        }
+        this.user = await LoginModel.create(this.body); 
     }
 
     async userExists() {
-        const user = await LoginModel.findOne({ email: this.body.email });
-        if(user) this.errors.push('Este utilizador já existe.');
+        this.user = await LoginModel.findOne({ email: this.body.email });
+        if(this.user) this.errors.push('Este utilizador já existe.');
     }
 
     validate() {
