@@ -1,8 +1,8 @@
 const Contacts = require('../models/ContactsModel');
 
 exports.index = (req, res) => {
-    res.render('contacts');
-}
+    res.render('contacts', { contacts: {} });
+};
 
 exports.register = async (req, res) => {
     try {
@@ -32,4 +32,26 @@ exports.editIndex = async function(req, res) {
     if(!contacts) return res.render('404');
 
     res.render('contacts', { contacts });
-}
+};
+
+exports.edit = async function(req, res) {
+    try {
+        if(!req.params.id) return res.render('404');
+        const contacts = new Contacts(req.body);
+        await contacts.edit(req.params.id);
+
+        if(contacts.errors.length > 0) {
+            req.flash('errors', contacts.errors);
+            req.session.save(() => res.redirect('/contacts/index'));
+            return;
+        }
+        
+        req.flash('success', 'Contacto editado com sucesso.');
+            req.session.save(() => res.redirect(`/contacts/index/${contacts.contacts._id}`));
+            return;
+
+    } catch(e) {
+        console.log(e);
+        res.render('404');
+    }
+};
