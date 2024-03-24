@@ -28,7 +28,7 @@ Contacts.findId = async function(id) {
 Contacts.prototype.register = async function() {
     this.validate();
     if(this.errors.length > 0) return;
-    this.contacts = await ContactsModel.create(this.body);
+    this.contacts = await ContactsModel.create(this.body);   // é este contacto que estamos a acessar e this representa (const contacts = new Contacts(req.body);
 };
 
 Contacts.prototype.validate = function() {

@@ -31,5 +31,5 @@ exports.editIndex = async function(req, res) {
     const contacts = await Contacts.findId(req.params.id);
     if(!contacts) return res.render('404');
 
-    res.render('contactos', { contacts });
+    res.render('contacts', { contacts });
 }
