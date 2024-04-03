@@ -22,7 +22,6 @@ exports.register = async (req, res) => {
         console.log(e);
         return res.render('404');
     }
-   
 };
 
 exports.editIndex = async function(req, res) {
@@ -54,4 +53,15 @@ exports.edit = async function(req, res) {
         console.log(e);
         res.render('404');
     }
+};
+
+exports.delete = async function(req, res) {
+    if(!req.params.id) return res.render('404');
+
+    const contacts = await Contacts.delete(req.params.id);
+    if(!contacts) return res.render('404');
+
+    req.flash('success', 'Contacto apagado com sucesso.');
+    req.session.save(() => res.redirect('/'));
+    return;
 };
