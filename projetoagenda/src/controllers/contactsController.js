@@ -5,9 +5,10 @@ exports.index = (req, res) => {
 };
 
 exports.register = async (req, res) => {
+    const userId = req.session.user.email;
     try {
         const contacts = new Contacts(req.body);
-        await contacts.register();
+        await contacts.register(userId);
 
         if(contacts.errors.length > 0) {
             req.flash('errors', contacts.errors);
@@ -27,10 +28,18 @@ exports.register = async (req, res) => {
 exports.editIndex = async function(req, res) {
     if(!req.params.id) return res.render('404');
 
-    const contacts = await Contacts.findId(req.params.id);
-    if(!contacts) return res.render('404');
+    const userId = req.session.user.email;
+    const contactId = req.params.id;
 
-    res.render('contacts', { contacts });
+    try {
+        const contacts = await Contacts.findId(contactId, userId);
+        if(!contacts) return res.render('404');
+
+        res.render('contacts', { contacts });
+    } catch(e) {
+        console.log(e);
+        return res.send('ERRO')
+    }
 };
 
 exports.edit = async function(req, res) {

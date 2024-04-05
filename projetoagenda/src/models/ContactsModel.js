@@ -1,5 +1,4 @@
 // tudo o que é relativo a dados e à db é com o model que vamos trabalhar.
-
 const mongoose = require('mongoose');
 const validator = require('validator');
 
@@ -8,10 +7,12 @@ const ContactsSchema = new mongoose.Schema({
     sobrenome: { type: String, required: false, default: '' },
     email: { type: String, required: false, default: '' },
     telemovel: { type: String, required: false, default: '' },
-    createData: { type: Date, default: Date.now },
+    createData: { type: Date, default: Date.now }
 });
 
-const ContactsModel = mongoose.model('Contacts', ContactsSchema);
+const ContactsModel = (userId) => {
+    return mongoose.model(`Contacts by ${userId}`, ContactsSchema);
+};
 
 function Contacts(body) {
     this.body = body;
@@ -19,10 +20,10 @@ function Contacts(body) {
     this.contacts = null;
 }
 
-Contacts.prototype.register = async function() {
+Contacts.prototype.register = async function(userId) {
     this.validate();
     if(this.errors.length > 0) return;
-    this.contacts = await ContactsModel.create(this.body);   // é este contacto que estamos a acessar e this representa (const contacts = new Contacts(req.body);
+    this.contacts = await ContactsModel(userId).create(this.body);   // é este contacto que estamos a acessar e this representa (const contacts = new Contacts(req.body);
 };
 
 Contacts.prototype.validate = function() {
@@ -50,23 +51,23 @@ Contacts.prototype.cleanUp = function() {
     };
 };
 
-Contacts.prototype.edit = async function(id) {
+Contacts.prototype.edit = async function(contactId, userId) {
     if(typeof id !== 'string') return;
     this.validate();
     if(this.errors.length > 0) return;
-    this.contacts = await ContactsModel.findByIdAndUpdate(id, this.body, { new: true });
+    this.contacts = await ContactsModel(userId).findByIdAndUpdate(contactId, this.body, { new: true });
 }
 
 // metodos estáticos
 
-Contacts.findId = async function(id) {
-    if(typeof id !== 'string') return;
-    const contact = await ContactsModel.findById(id);
+Contacts.findId = async function(contactId, userId) {
+    if(typeof contactId !== 'string') return;
+    const contact = await ContactsModel(userId).findById(contactId);
     return contact;
 };
 
-Contacts.findContacts = async function() {
-    const contacts = await ContactsModel.find()
+Contacts.findContacts = async function(userId) {
+    const contacts = await ContactsModel(userId).find()
     .sort({ createData: -1 });
     return contacts;
 };

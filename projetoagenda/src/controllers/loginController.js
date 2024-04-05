@@ -13,7 +13,7 @@ exports.register = async function(req, res) {
         if(login.errors.length > 0) {
             req.flash('errors', login.errors);    // 6 - se der algum erro precisamos de garantir que a mensagem aparece na página inicial.
             req.session.save(function() {
-                return res.redirect('/login/index');
+                return res.redirect('/');
             });
 
             return;
@@ -21,7 +21,7 @@ exports.register = async function(req, res) {
 
         req.flash('success', 'A sua conta foi criada com sucesso.'); // 7 - se a conta for criada com sucesso apresentamos uma flass msg.
         req.session.save(function() {
-            return res.redirect('/login/index');
+            return res.redirect('/');
         });    
     } catch(e) {
         console.log(e);
@@ -37,7 +37,7 @@ exports.login = async function(req, res) {
         if(login.errors.length > 0) {
             req.flash('errors', login.errors);    
             req.session.save(function() {
-                return res.redirect('/login/index');
+                return res.redirect('/');
             });
 
             return;
@@ -46,7 +46,7 @@ exports.login = async function(req, res) {
         req.flash('success', 'Utilizador logado.');
         req.session.user = login.user;
         req.session.save(function() {
-            return res.redirect('/login/index');
+            return res.redirect('/');
         });    
     } catch(e) {
         console.log(e);
