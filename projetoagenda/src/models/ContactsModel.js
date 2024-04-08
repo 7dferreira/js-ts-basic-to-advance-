@@ -52,10 +52,11 @@ Contacts.prototype.cleanUp = function() {
 };
 
 Contacts.prototype.edit = async function(contactId, userId) {
-    if(typeof id !== 'string') return;
+    if(typeof contactId !== 'string') return;
     this.validate();
     if(this.errors.length > 0) return;
     this.contacts = await ContactsModel(userId).findByIdAndUpdate(contactId, this.body, { new: true });
+    
 }
 
 // metodos estáticos

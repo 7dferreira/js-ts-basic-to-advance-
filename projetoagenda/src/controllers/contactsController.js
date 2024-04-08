@@ -43,10 +43,15 @@ exports.editIndex = async function(req, res) {
 };
 
 exports.edit = async function(req, res) {
+    
+    const userId = req.session.user.email;
+    const contactId = req.params.id;
+    
     try {
-        if(!req.params.id) return res.render('404');
+        if(!contactId) return res.render('404');
+
         const contacts = new Contacts(req.body);
-        await contacts.edit(req.params.id);
+        await contacts.edit(contactId, userId);
 
         if(contacts.errors.length > 0) {
             req.flash('errors', contacts.errors);
@@ -55,7 +60,7 @@ exports.edit = async function(req, res) {
         }
         
         req.flash('success', 'Contacto editado com sucesso.');
-            req.session.save(() => res.redirect(`/contacts/index/${contacts.contacts._id}`));
+            req.session.save(() => res.redirect(`/contacts/list`));
             return;
 
     } catch(e) {
