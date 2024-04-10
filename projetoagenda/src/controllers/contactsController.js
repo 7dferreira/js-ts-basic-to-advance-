@@ -70,9 +70,12 @@ exports.edit = async function(req, res) {
 };
 
 exports.delete = async function(req, res) {
-    if(!req.params.id) return res.render('404');
+    const userId = req.session.user.email;
+    const contactId = req.params.id;
 
-    const contacts = await Contacts.delete(req.params.id);
+    if(!contactId) return res.render('404');
+
+    const contacts = await Contacts.delete(contactId, userId);
     if(!contacts) return res.render('404');
 
     req.flash('success', 'Contacto apagado com sucesso.');
