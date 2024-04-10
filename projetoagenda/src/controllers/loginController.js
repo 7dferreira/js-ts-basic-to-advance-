@@ -5,6 +5,11 @@ exports.index = (req, res) => {
     return res.render('login');
 };
 
+exports.passwordIndex = (req, res) => {
+    const id = req.session.user._id;
+    return res.render("password", { id });
+};
+
 exports.register = async function(req, res) {
     try {
         const login = new Login(req.body);        // 1 - instancia da classe
@@ -58,3 +63,28 @@ exports.logout = function(req, res) {
     req.session.destroy();
     res.redirect('/');
 };
+
+exports.passwordEdit = async (req, res) => {
+    try {
+      const sessionUser = req.session.user;
+      const login = new Login(req.body);
+      await login.changePassword(sessionUser);
+  
+      if (login.errors.length > 0) {
+        req.flash("errors", login.errors);
+        req.session.save(() => {
+          return res.redirect("/password/:id");
+        });
+  
+        return;
+      }
+  
+      req.flash("success", `Senha alterada com sucesso!`);
+      req.session.save(() => {
+        return res.redirect(`/contacts/list`);
+      });
+    } catch (error) {
+      console.log(error);
+      return res.render("erro");
+    }
+  };

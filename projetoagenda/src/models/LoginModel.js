@@ -75,6 +75,53 @@ class Login {
             password: this.body.password
         }
     }
+
+    validatePassword() {
+        for (const key in this.body) {
+          if (typeof this.body[key] !== "string") {
+            this.body[key] = "";
+          }
+          this.body[key] = this.body[key].trim();
+        }
+    
+        if (
+          !this.body.oldpassword ||
+          !this.body.newpassword ||
+          !this.body.checkpassword
+        )
+          this.errors.push("Preencha todos os campos.");
+    
+        if (
+          this.body.newpassword &&
+          (this.body.newpassword.length < 5 || this.body.newpassword.length > 50)
+        )
+          this.errors.push("A senha deve ter entre 5 a 50 caracteres");
+    
+        if (this.body.newpassword !== this.body.checkpassword)
+          this.errors.push("Senha de confirmacao deve ser igual a nova.");
+      }
+
+    async changePassword(sessionUser) {
+        this.validatePassword();
+    
+        if (this.errors.length > 0) return;
+    
+        if (!bcryptjs.compareSync(this.body.oldpassword, sessionUser.password)) {
+          this.errors.push("Senha actual invalida.");
+          return;
+        }
+    
+        const salt = bcryptjs.genSaltSync();
+        sessionUser.password = bcryptjs.hashSync(this.body.newpassword, salt);
+    
+        this.user = await LoginModel.findByIdAndUpdate(
+          sessionUser._id,
+          sessionUser,
+          {
+            new: true,
+          }
+        );
+      }
 }
 
 module.exports = Login;
