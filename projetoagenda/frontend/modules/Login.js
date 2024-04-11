@@ -23,16 +23,28 @@ export default class Login {
         const passwordInput = el.querySelector('input[name="password"]');
         let error = false;
 
+        for(let errorText of this.form.querySelectorAll('.error-text')) { 
+            errorText.remove();
+        }
+
         if(!validator.isEmail(emailInput.value)) {
-            alert('Email inválido!');
+            this.createError(emailInput, 'Email inválido!');
             error = true;
         }
 
         if(passwordInput.value.length < 3 || passwordInput.value.length > 50) {
-            alert('Password precisa de ter entre 3 e 50 caracteres!');
+            this.createError(passwordInput, 'Password precisa ter entre 3 e 50 caracteres!')
             error = true;
         }
 
         if(!error) el.submit();
+    }
+
+    createError(field, msg) {                                           
+        const div = document.createElement('div');
+        div.innerHTML = msg;
+        div.classList.add('error-text');
+        field.insertAdjacentElement('afterend', div)                       
+        
     }
 }
