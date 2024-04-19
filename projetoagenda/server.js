@@ -22,13 +22,13 @@ const MongoStore = require('connect-mongo');  // as sessões vão ser salvas den
 const flash = require('connect-flash');       // flash messagens são mensagens "auto destrutivas" só se lêem uma vez.
 const routes = require('./routes');
 const path = require('path');
-const helmet = require('helmet');
+// const helmet = require('helmet');
  // tokens que são criados para cada form da nossa app. para q nenhum site externo entre na nossa app.
 const csrf = require('csurf');               
 // middlewares são funções q são executadas nas rotas. antes ou depois da res ao cliente. criamos funções q executam no meio do caminho.
 const { globalMiddleware, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
 
-app.use(helmet());
+// app.use(helmet());
 // quando alguém fizer post req.body jutamente com urlencode devolve um objeto com o que foi postado.
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());

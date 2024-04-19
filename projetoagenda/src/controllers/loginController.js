@@ -1,7 +1,7 @@
 const Login = require('../models/LoginModel');
 
 exports.index = (req, res) => {
-    if(req.session.user) return res.render('login-logado');
+    if(req.session.user) return res.render('login-logado', { user: req.session.user });
     return res.render('login');
 };
 
@@ -13,6 +13,7 @@ exports.passwordIndex = (req, res) => {
 exports.register = async function(req, res) {
     try {
         const login = new Login(req.body);        // 1 - instancia da classe
+        console.log(req.body);
         await login.register();                   // 2 - desencadeia o método register no model.
 
         if(login.errors.length > 0) {
@@ -36,7 +37,8 @@ exports.register = async function(req, res) {
 
 exports.login = async function(req, res) {
     try {
-        const login = new Login(req.body);       
+        const login = new Login(req.body);
+        console.log(req.body);       
         await login.login();                   
 
         if(login.errors.length > 0) {
@@ -47,6 +49,8 @@ exports.login = async function(req, res) {
 
             return;
         }
+
+        res.locals.user = login.user;
 
         req.flash('success', 'Utilizador logado.');
         req.session.user = login.user;

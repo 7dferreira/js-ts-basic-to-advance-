@@ -17,7 +17,7 @@ route.get('/login/logout', loginController.logout);
 
 // contact routes
 route.get('/contacts/index', loginRequired, contactsController.index);
-route.get('/contacts/list', homeController.index);
+route.get('/contacts/list', loginRequired, homeController.index);
 route.post('/contacts/register', loginRequired, contactsController.register);
 route.get('/contacts/index/:id', loginRequired, contactsController.editIndex);
 route.post('/contacts/edit/:id', loginRequired, contactsController.edit);
