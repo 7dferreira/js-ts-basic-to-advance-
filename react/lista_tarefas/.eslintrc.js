@@ -29,6 +29,7 @@ module.exports = {
     'react/state-in-constructor': 'off',
     'jsx-a11y/control-has-associated-label': 'off',
     'class-methods-use-this': 'off',
+    'react/forbid-prop-types': 0,
     'prettier/prettier': ['error', { singleQuote: true, jsxSingleQuote: true }],
   },
 };
