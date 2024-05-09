@@ -28,6 +28,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'react/state-in-constructor': 'off',
     'jsx-a11y/control-has-associated-label': 'off',
+    'class-methods-use-this': 'off',
     'prettier/prettier': ['error', { singleQuote: true, jsxSingleQuote: true }],
   },
 };

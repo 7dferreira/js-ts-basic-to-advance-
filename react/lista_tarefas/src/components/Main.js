@@ -7,7 +7,22 @@ import './Main.css';
 export default class Main extends Component {
   state = {
     newTask: '',
-    tasks: ['Café', 'Beber água', 'Estudar'],
+    tasks: [],
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { tasks } = this.state;
+    let { newTask } = this.state;
+    newTask = newTask.trim();
+
+    if (tasks.indexOf(newTask) !== -1) return; // Verifica se existem tarefas repetidas.
+
+    const newTasks = [...tasks];
+
+    this.setState({
+      tasks: [...newTasks, newTask],
+    });
   };
 
   handleChange = (e) => {
@@ -23,7 +38,7 @@ export default class Main extends Component {
       <div className='main'>
         <h1>Lista de tarefas</h1>
 
-        <form action='#' className='form'>
+        <form onSubmit={this.handleSubmit} action='#' className='form'>
           <input onChange={this.handleChange} type='text' value={newTask} />
           <button type='submit'>
             <FaPlus />
@@ -33,10 +48,10 @@ export default class Main extends Component {
           {tasks.map((task) => (
             <li key={task}>
               {task}
-              <div>
+              <span>
                 <FaEdit className='edit' />
                 <FaWindowClose className='delete' />
-              </div>
+              </span>
             </li>
           ))}
         </ul>
