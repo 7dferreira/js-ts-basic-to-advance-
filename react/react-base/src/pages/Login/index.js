@@ -1,12 +1,18 @@
 import React from 'react';
-import { toast } from 'react-toastify';
+import axios from '../../services/axios';
 
 import { Container } from '../../styles/GlobalStyles';
 import { Title, Paragraph } from './styled';
 
 export default function Login() {
-  toast.success('Conta criada com sucesso!');
-  toast.error('Erro!');
+  React.useEffect(() => {
+    async function getData() {
+      const response = await axios.get('/alunos');
+      const { data } = response;
+      console.log(data);
+    }
+    getData();
+  }, []);
   return (
     <Container>
       <Title>
