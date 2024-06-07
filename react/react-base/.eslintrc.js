@@ -30,6 +30,7 @@ module.exports = {
     'jsx-a11y/control-has-associated-label': 'off',
     'class-methods-use-this': 'off',
     'react/forbid-prop-types': 0,
+    'default-param-last': 'off',
     'prettier/prettier': ['error', { singleQuote: true, jsxSingleQuote: true }],
   },
 };

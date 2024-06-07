@@ -1,18 +1,21 @@
 import React from 'react';
-import axios from '../../services/axios';
+import { useDispatch } from 'react-redux';
 
 import { Container } from '../../styles/GlobalStyles';
 import { Title, Paragraph } from './styled';
 
 export default function Login() {
-  React.useEffect(() => {
-    async function getData() {
-      const response = await axios.get('/alunos');
-      const { data } = response;
-      console.log(data);
-    }
-    getData();
-  }, []);
+  // O dispatch é um método usado para despachar ações (actions).
+  // é a maneira principal de enviar uma ação para o reducer, que, por sua vez, atualiza o estado da aplicação com base nessa ação.
+
+  const dispatch = useDispatch();
+
+  function handleClick(e) {
+    e.preventDefault();
+    dispatch({
+      type: 'BOTAO_CLICADO',
+    });
+  }
   return (
     <Container>
       <Title>
@@ -20,7 +23,9 @@ export default function Login() {
         <small>Oi</small>
       </Title>
       <Paragraph>Lorem ipsum dolor sit amet.</Paragraph>
-      <button type='button'>Enviar</button>
+      <button type='button' onClick={handleClick}>
+        Enviar
+      </button>
     </Container>
   );
 }
