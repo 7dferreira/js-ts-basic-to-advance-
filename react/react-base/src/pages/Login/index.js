@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { Container } from '../../styles/GlobalStyles';
 import { Title, Paragraph } from './styled';
+import * as exampleActions from '../../store/modules/example/actions';
 
 export default function Login() {
   // O dispatch é um método usado para despachar ações (actions).
@@ -12,9 +13,7 @@ export default function Login() {
 
   function handleClick(e) {
     e.preventDefault();
-    dispatch({
-      type: 'BOTAO_CLICADO',
-    });
+    dispatch(exampleActions.clickButton());
   }
   return (
     <Container>
