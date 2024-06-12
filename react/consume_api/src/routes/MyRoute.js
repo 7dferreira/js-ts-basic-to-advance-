@@ -2,11 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export default function MyRoute({
-  component: Component,
-  isClosed = false,
-  ...rest
-}) {
+export default function MyRoute({ component: Component, isClosed, ...rest }) {
   const isLoggedIn = false;
 
   if (isClosed && !isLoggedIn) {
