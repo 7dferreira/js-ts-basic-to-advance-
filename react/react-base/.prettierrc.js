@@ -11,7 +11,7 @@ module.exports = {
   semi: true,
   singleQuote: true, // Use single quotes for JavaScript
   tabWidth: 2,
-  trailingComma: 'all',
+  trailingComma: 'es5',
   useTabs: false,
   vueIndentScriptAndStyle: false,
   embeddedLanguageFormatting: 'off',
